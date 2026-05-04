@@ -141,7 +141,7 @@
         type: "skip",
         mode: "air",
         label: "shared features",
-        pos: 5,
+        pos: 4,
         touch-layer: true,
       ),
     ),
@@ -151,7 +151,7 @@
   )
 ]
 
-#v(6pt)
+#v(-16pt)
 
 // Horizontal legend below the diagram. Each entry is a small color
 // swatch + label; the colors mirror the fills used inside the network.
