@@ -2,7 +2,8 @@
 #import "@preview/cetz-plot:0.1.2": plot
 
 #set page(width: auto, height: auto, margin: 8pt, fill: white)
-#set text(font: "Helvetica", size: 9pt)
+#set text(font: "New Computer Modern", size: 9pt)
+#show math.equation: set text(font: "New Computer Modern Math")
 
 // FSS-1000 test set, 37x37-grid-snapped action space, frozen-best params per family.
 // All methods (heuristic, BC, RL) prompt SAM at 37x37 grid cell centers.

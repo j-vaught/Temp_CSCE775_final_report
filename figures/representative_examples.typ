@@ -1,6 +1,6 @@
 #set page(width: auto, height: auto, margin: 6pt, fill: white)
-#set text(size: 8pt, fill: black)
-// Inherits Typst's default serif (Linux Libertine), matching charged-ieee body font.
+#set text(font: "New Computer Modern", size: 8pt, fill: black)
+#show math.equation: set text(font: "New Computer Modern Math")
 
 #let base = "repr_examples/"
 

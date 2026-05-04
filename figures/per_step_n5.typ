@@ -2,7 +2,8 @@
 #import "@preview/cetz-plot:0.1.2": plot
 
 #set page(width: auto, height: auto, margin: 8pt, fill: white)
-#set text(font: "Helvetica", size: 9pt)
+#set text(font: "New Computer Modern", size: 9pt)
+#show math.equation: set text(font: "New Computer Modern Math")
 
 // Per-step rollout IoU at N=5 on FSS-1000 test (450 episodes).
 // RL: artifacts/rl/runs/fss1000_rl_ppo_n5_warmstart/per_step_rollout_iou.csv
