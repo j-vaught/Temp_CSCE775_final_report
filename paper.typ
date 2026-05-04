@@ -142,7 +142,7 @@ We report intersection-over-union (IoU) as the primary metric, accompanied by th
 ) <fig:miou_vs_n>
 
 #figure(
-  caption: [Heuristic vs. trained vs. RL methods on FSS-1000 test ($450$ episodes per cell). Greedy oracle is a non-comparable validation-only upper bound.],
+  caption: [Heuristic vs. trained vs. RL methods on FSS-1000 test ($450$ episodes per cell).],
   placement: top,
   table(
     columns: (auto, auto, auto, auto, auto, auto),
