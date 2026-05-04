@@ -46,14 +46,16 @@ model must segment every instance of that class in a new query image. The settin
 
 The standard template for single-shot SAM-based segmentation involves three stages: 1) feature extraction via DINOv2, 2) similarity map computation, and 3) point prompt selection for SAM. DINOv2 embeds both support and query images into dense feature grids. The annotated support region is averaged to form a reference class embedding, which is compared to each query pixel via cosine similarity. Finally, $N$ point prompts are extracted from the similarity map and passed to SAM, which produces the final mask.
 
-However, this reduction from a dense similarity map to a small discrete set of point prompts is an open design choice. The prior two stages have well-established closed-form definitions, but point selection has received little systematic attention in the literature.
-
-The naive choice of selecting the $N$ pixels with the highest similarity scores tends to concentrate points on a single high-confidence region of the object. SAM then receives redundant prompts that provide little additional disambiguating information about object extent, boundaries, or the presence of multiple instances, and mask quality plateaus accordingly.   
-
-
-A common intuition in SAM-prompting pipelines is that _spatial spread_, jointly with similarity magnitude, governs mask quality, and clustering-based heuristics including non-maximum suppression (NMS), Farthest Point Sampling (FPS), and k-means-style selectors have been proposed in service of that intuition @liu2024matcher @rajic2024sampt @zhang2024gfsam. However, the spread framing is rarely defended empirically, and a growing body of work argues that _per-object_ considerations --- instance separation @wei2024sapnet, boundary structure @ke2023hqsam, part-vs-whole semantics @fan2025stablesam, and human click priors @antonov2024rclicks --- matter more than uniform spatial coverage. Whether discrete spatial selection is even the right interface remains contested, with several recent methods bypassing point prompts entirely in favor of dense correspondence or learned embeddings @wang2023seggpt @sun2024vrpsam.
-
-Yet these strategies are typically introduced as components of larger systems and compared only incidentally, leaving the relative merits of the underlying selection rules poorly characterized.
+However, this reduction is the most contested stage of the pipeline. The prior two stages have well-established closed-form definitions, but point selection from a dense similarity map has been approached in fundamentally    
+different ways across the recent literature.                                                                                                                                
+The naive choice of selecting the $N$ pixels with the highest similarity scores tends to concentrate points on a single high-confidence region of the object. SAM then receives redundant prompts that provide little additional 
+disambiguating information about object extent, boundaries, or the presence of multiple instances, and the marginal value of additional points collapses.
+                                              
+In response, much of the recent SAM-prompting literature converges on the intuition that spatial spread, jointly with similarity magnitude, governs mask quality, and clustering-based heuristics including NMS, FPS, and        
+k-means-style selectors have been proposed in service of that intuition @liu2024matcher @rajic2024sampt @zhang2024gfsam. Yet the spread framing is itself rarely defended empirically; a growing body of work argues that 
+per-object considerations matter more than uniform spatial coverage @wei2024sapnet @ke2023hqsam @fan2025stablesam @antonov2024rclicks, and several methods bypass discrete point selection entirely in favor of dense            
+correspondence or learned embeddings @wang2023seggpt @sun2024vrpsam. These strategies are typically introduced as components of larger systems and compared only incidentally, leaving the relative merits of the underlying 
+selection rules poorly characterized.  
 
 #figure(
   image("figures/02_state_action.pdf", width: 90%),
@@ -62,7 +64,7 @@ Yet these strategies are typically introduced as components of larger systems an
   scope: "parent",
 ) <fig:state_action>
 
-We address this gap with a benchmark of eleven non-trained point selection strategies, a behavioral-cloning (BC) policy, and a reinforcement-learning (RL) fine-tune, all evaluated on FSS-1000 @li2020fss1000 over $N in {1, 2, 3, 5, 7, 10}$. All methods share an identical front-end and back-end, namely a DINOv2 ViT-L/14 encoder and a SAM ViT-H decoder, so that the only source of variation is from the $N$ prompt locations that are drawn from the shared similarity map. To remove a residual source of confound, we additionally quantize every selector's output to a shared $37 times 37$ grid before passing it to SAM, so that heuristic, imitation, and reinforcement-learning policies all operate in the same action space. Hyperparameters are tuned on a held-out validation split under a frozen-test protocol to avoid bias.
+We address this gap with a benchmark of eleven non-trained point selection strategies, a behavioral-cloning (BC) policy, and a reinforcement-learning (RL) fine-tune, all evaluated on FSS-1000 @li2020fss1000 over $N in {1, 2, 3, 5, 7, 10}$. All methods share an identical front-end and back-end, namely a DINOv2 ViT-L/14 encoder and a SAM ViT-H decoder, so that the only source of variation is from the $N$ prompt locations that are drawn from the shared similarity map. To remove a residual source of confound, we additionally quantize every selector's output to a shared $37 times 37$ grid before passing it to SAM, so that heuristic, imitation, and reinforcement-learning policies all operate in the same action space. Across this benchmark, the RL fine-tune outperforms the strongest spread-based heuristic by $0.096$ mIoU at $N = 5$ and breaks the plateau-and-decline pattern that every non-trained selector exhibits.
 
 = Related Work
 
