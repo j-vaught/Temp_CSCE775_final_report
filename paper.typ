@@ -267,6 +267,8 @@ We presented a controlled comparison of point selection strategies for single-sh
 
 #bibliography("refs.yaml", style: "ieee")
 
+#pagebreak()
+
 #set heading(numbering: "A.")
 #counter(heading).update(0)
 
@@ -274,7 +276,7 @@ We presented a controlled comparison of point selection strategies for single-sh
 
 #figure(
   caption: [Full heuristic sweep on FSS-1000 test ($450$ episodes per cell), under the unified action space. Frozen-best hyperparameters per method.],
-  placement: top,
+  placement: auto,
   scope: "parent",
   table(
     columns: (auto, auto, auto, auto, auto, auto, auto),
