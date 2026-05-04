@@ -273,7 +273,7 @@ We presented a controlled comparison of point selection strategies for single-sh
 #set heading(numbering: "A.")
 #counter(heading).update(0)
 
-= Full heuristic sweep <appendix:heuristic-sweep>
+= Appendix <appendix:heuristic-sweep>
 
 #figure(
   caption: [Full heuristic sweep on FSS-1000 test ($450$ episodes per cell), under the unified action space. Frozen-best hyperparameters per method.],
