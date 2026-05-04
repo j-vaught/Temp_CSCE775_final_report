@@ -90,7 +90,7 @@ We benchmark thirteen point selection strategies under a shared single-shot sema
 Given a fixed budget $N$, a selection strategy is a deterministic or stochastic function that returns a point set $cal(P)_N = {(x_i, y_i)}_(i=1)^(N)$ with $(x_i, y_i) in {1, dots, W} times {1, dots, H}$. The point set is passed to a frozen SAM ViT-H decoder, with every click treated as a positive label and no negative or box prompts supplied, and the decoder returns a single binary mask that is compared against the query ground truth. To make heuristic, imitation, and reinforcement-learning selectors directly comparable at the prompt level, every chosen pixel coordinate is then quantized to the nearest center of a shared $37 times 37$ grid before being handed to SAM. The grid resolution arises naturally from the BC oracle's candidate set, defined on this grid for tractable training, and we apply the same quantization to every selection rule so that all methods operate in a single action space. The quantization step does not modify any selection rule, only the spatial precision of the prompts SAM receives.
 
 #figure(
-  image("figures/01_rl_loop.pdf", width: 80%),
+  image("figures/01_rl_loop.pdf", width: 100%),
   caption: [Reinforcement-learning interaction loop. At each step the policy maps the multi-channel state to a $37 times 37$ logit, samples a discrete click cell, hands it to SAM, and receives a reward equal to the change in IoU between the new and previous mask; the episode terminates after $N$ clicks.],
   placement: top,
   scope: "parent",
@@ -113,7 +113,7 @@ The behavioral-cloning policy provides a strong initialization, but its training
 We use proximal policy optimization (PPO) @schulman2017ppo with the categorical policy expressed as a softmax over the $37 times 37$ logit map produced by the BC network. A linear value head is appended to the same backbone, yielding the shared-backbone actor-critic architecture in @fig:policy_arch. Three convolutional blocks form a shared backbone over the nine-channel input. The actor head is a $1 times 1$ convolution producing $37 times 37$ logits, masked by previously-clicked cells before sampling. The value head is a global-average-pool plus MLP scalar baseline used by PPO's advantage estimator. The policy is initialized from the BC best checkpoint, and a Kullback-Leibler regularization term $beta dot "KL"(pi_theta || pi_("BC"))$ is added to the loss to anchor the fine-tune to the imitation prior; we initialize $beta = 0.1$ and decay it linearly to $0.01$ over the first quarter of training. The full warm-start-then-fine-tune pipeline is shown in @fig:training_pipeline. PPO collects rollouts from $32$ vectorized environments, computes generalized advantages @schulman2016gae, and updates the policy with a clipped surrogate objective regularized by the KL anchor to the frozen BC reference.
 
 #figure(
-  image("figures/04_training_pipeline.pdf", width: 90%),
+  image("figures/04_training_pipeline.pdf", width: 100%),
   caption: [BC warm-start to PPO fine-tuning. The actor weights are copied from the BC checkpoint and the value head is initialized fresh. PPO collects rollouts from $32$ vectorized environments, computes generalized advantages, and updates the policy with a clipped surrogate objective regularized by a KL anchor to the frozen BC reference.],
   placement: top,
   scope: "parent",
@@ -142,25 +142,25 @@ We report intersection-over-union (IoU) as the primary metric, accompanied by th
 ) <fig:miou_vs_n>
 
 #figure(
-  caption: [Headline comparison on FSS-1000 test ($450$ episodes per cell), showing trained methods alongside the strongest heuristic anchor and a trivial-baseline reference. Greedy oracle is a non-comparable upper bound (validation only).],
+  caption: [Heuristic vs. trained vs. RL methods on FSS-1000 test ($450$ episodes per cell). Greedy oracle is a non-comparable validation-only upper bound.],
   placement: top,
   table(
-    columns: (auto, auto, auto, auto, auto, auto, auto),
-    align: (left, right, right, right, right, right, right),
+    columns: (auto, auto, auto, auto, auto, auto),
+    align: (left, right, right, right, right, right),
     stroke: none,
     table.hline(),
     table.header(
-      [Method], [$N=1$], [$N=2$], [$N=3$], [$N=5$], [$N=7$], [$N=10$],
+      [Method], [$N=1$], [$N=2$], [$N=5$], [$N=7$], [$N=10$],
     ),
     table.hline(),
-    [Greedy oracle (val, upper bound)], [0.920], [0.948], [0.952], [0.956], [0.956], [0.955],
+    [Greedy Oracle], [0.920], [0.948], [0.956], [0.956], [0.955],
     table.hline(stroke: 0.4pt),
-    [*RL fine-tune (PPO)*], [--], [--], [--], [*0.864*], [--], [*0.866*],
+    [*PPO RL*], [--], [--], [*0.864*], [--], [*0.866*],
     table.hline(stroke: 0.4pt),
-    [BC], [--], [0.634], [--], [0.672], [--], [0.586],
+    [BC], [--], [0.634], [0.672], [--], [0.586],
     table.hline(stroke: 0.4pt),
-    [Sim-weighted FPS ($alpha=0.75$, best heuristic)], [0.585], [0.699], [0.741], [0.768], [0.756], [0.731],
-    [Top-K argmax (trivial baseline)], [0.585], [0.579], [0.571], [0.502], [0.445], [0.379],
+    [FPS ($alpha = 0.75$)], [0.585], [0.699], [0.768], [0.756], [0.731],
+    [Top-K argmax], [0.585], [0.579], [0.502], [0.445], [0.379],
     table.hline(),
   )
 ) <tab:test_results>
