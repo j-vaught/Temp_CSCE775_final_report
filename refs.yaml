@@ -1,0 +1,168 @@
+kirillov2023sam:
+  type: article
+  title: "Segment Anything"
+  author: ["Kirillov, Alexander", "Mintun, Eric", "Ravi, Nikhila", "Mao, Hanzi", "Rolland, Chloe", "Gustafson, Laura", "Xiao, Tete", "Whitehead, Spencer", "Berg, Alexander C.", "Lo, Wan-Yen", "Doll{á}r, Piotr", "Girshick, Ross"]
+  date: 2023
+  parent:
+    type: proceedings
+    title: "International Conference on Computer Vision (ICCV)"
+
+oquab2023dinov2:
+  type: article
+  title: "DINOv2: Learning Robust Visual Features without Supervision"
+  author: ["Oquab, Maxime", "Darcet, Timoth{é}e", "Moutakanni, Th{é}o", "Vo, Huy V.", "Szafraniec, Marc", "Khalidov, Vasil", "Fernandez, Pierre", "Haziza, Daniel", "Massa, Francisco", "El-Nouby, Alaaeldin", "others"]
+  date: 2024
+  parent:
+    type: periodical
+    title: "Transactions on Machine Learning Research"
+
+li2020fss1000:
+  type: article
+  title: "FSS-1000: A 1000-Class Dataset for Few-Shot Segmentation"
+  author: ["Li, Xiang", "Wei, Tianhan", "Chen, Yau Pun", "Tai, Yu-Wing", "Tang, Chi-Keung"]
+  date: 2020
+  parent:
+    type: proceedings
+    title: "IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)"
+
+min2021hsnet:
+  type: article
+  title: "Hypercorrelation Squeeze for Few-Shot Segmentation"
+  author: ["Min, Juhong", "Kang, Dahyun", "Cho, Minsu"]
+  date: 2021
+  parent:
+    type: proceedings
+    title: "International Conference on Computer Vision (ICCV)"
+
+tian2020pfenet:
+  type: article
+  title: "Prior Guided Feature Enrichment Network for Few-Shot Segmentation"
+  author: ["Tian, Zhuotao", "Zhao, Hengshuang", "Shu, Michelle", "Yang, Zhicheng", "Li, Ruiyu", "Jia, Jiaya"]
+  date: 2022
+  parent:
+    type: periodical
+    title: "IEEE Transactions on Pattern Analysis and Machine Intelligence"
+
+lang2022bam:
+  type: article
+  title: "Learning What Not to Segment: A New Perspective on Few-Shot Segmentation"
+  author: ["Lang, Chunbo", "Cheng, Gong", "Tu, Binfei", "Han, Junwei"]
+  date: 2022
+  parent:
+    type: proceedings
+    title: "IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)"
+
+hong2022vat:
+  type: article
+  title: "Cost Aggregation with 4D Convolutional Swin Transformer for Few-Shot Segmentation"
+  author: ["Hong, Sunghwan", "Cho, Seokju", "Nam, Jisu", "Lin, Stephen", "Kim, Seungryong"]
+  date: 2022
+  parent:
+    type: proceedings
+    title: "European Conference on Computer Vision (ECCV)"
+
+shi2022dcama:
+  type: article
+  title: "Dense Cross-Query-and-Support Attention Weighted Mask Aggregation for Few-Shot Segmentation"
+  author: ["Shi, Xinyu", "Wei, Dong", "Zhang, Yu", "Lu, Donghuan", "Ning, Munan", "Chen, Jiashun", "Ma, Kai", "Zheng, Yefeng"]
+  date: 2022
+  parent:
+    type: proceedings
+    title: "European Conference on Computer Vision (ECCV)"
+
+peng2023hdmnet:
+  type: article
+  title: "Hierarchical Dense Correlation Distillation for Few-Shot Segmentation"
+  author: ["Peng, Bohao", "Tian, Zhuotao", "Wu, Xiaoyang", "Wang, Chengyao", "Liu, Shu", "Su, Jingyong", "Jia, Jiaya"]
+  date: 2023
+  parent:
+    type: proceedings
+    title: "IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)"
+
+ravi2024sam2:
+  type: article
+  title: "SAM 2: Segment Anything in Images and Videos"
+  author: ["Ravi, Nikhila", "Gabeur, Valentin", "Hu, Yuan-Ting", "Hu, Ronghang", "Ryali, Chaitanya", "Ma, Tengyu", "Khedr, Haitham", "R{ä}dle, Roman", "Rolland, Chloe", "Gustafson, Laura", "others"]
+  date: 2024
+  serial-number:
+    arxiv: "2408.00714"
+
+wang2023seggpt:
+  type: article
+  title: "SegGPT: Segmenting Everything in Context"
+  author: ["Wang, Xinlong", "Zhang, Xiaosong", "Cao, Yue", "Wang, Wen", "Shen, Chunhua", "Huang, Tiejun"]
+  date: 2023
+  parent:
+    type: proceedings
+    title: "International Conference on Computer Vision (ICCV)"
+
+liu2024matcher:
+  type: article
+  title: "Matcher: Segment Anything with One Shot Using All-Purpose Feature Matching"
+  author: ["Liu, Yang", "Zhu, Muzhi", "Li, Hengtao", "Chen, Hao", "Wang, Xinlong", "Shen, Chunhua"]
+  date: 2024
+  parent:
+    type: proceedings
+    title: "International Conference on Learning Representations (ICLR)"
+
+zhang2023persam:
+  type: article
+  title: "Personalize Segment Anything Model with One Shot"
+  author: ["Zhang, Renrui", "Jiang, Zhengkai", "Guo, Ziyu", "Yan, Shilin", "Pan, Junting", "Dong, Hao", "Gao, Peng", "Li, Hongsheng"]
+  date: 2024
+  parent:
+    type: proceedings
+    title: "International Conference on Learning Representations (ICLR)"
+
+torres2025sansa:
+  type: article
+  title: "SANSA: SAM2 Adapter for Single-Image Few-Shot Semantic Segmentation"
+  author: ["Torres, R.", "Cantarini, M.", "Olivieri, F.", "Pierdicca, R.", "Frontoni, E.", "Mancini, A."]
+  date: 2025
+  parent:
+    type: proceedings
+    title: "Advances in Neural Information Processing Systems (NeurIPS)"
+
+sofiiuk2022ritm:
+  type: article
+  title: "Reviving Iterative Training with Mask Guidance for Interactive Segmentation"
+  author: ["Sofiiuk, Konstantin", "Petrov, Ilia A.", "Konushin, Anton"]
+  date: 2022
+  parent:
+    type: proceedings
+    title: "IEEE International Conference on Image Processing (ICIP)"
+
+liu2023simpleclick:
+  type: article
+  title: "SimpleClick: Interactive Image Segmentation with Simple Vision Transformers"
+  author: ["Liu, Qin", "Xu, Zhenlin", "Bertasius, Gedas", "Niethammer, Marc"]
+  date: 2023
+  parent:
+    type: proceedings
+    title: "International Conference on Computer Vision (ICCV)"
+
+chen2022focalclick:
+  type: article
+  title: "FocalClick: Towards Practical Interactive Image Segmentation"
+  author: ["Chen, Xi", "Zhao, Zhiyan", "Zhang, Yilei", "Duan, Manni", "Qi, Donglian", "Zhao, Hengshuang"]
+  date: 2022
+  parent:
+    type: proceedings
+    title: "IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)"
+
+schulman2017ppo:
+  type: article
+  title: "Proximal Policy Optimization Algorithms"
+  author: ["Schulman, John", "Wolski, Filip", "Dhariwal, Prafulla", "Radford, Alec", "Klimov, Oleg"]
+  date: 2017
+  serial-number:
+    arxiv: "1707.06347"
+
+schulman2016gae:
+  type: article
+  title: "High-Dimensional Continuous Control Using Generalized Advantage Estimation"
+  author: ["Schulman, John", "Moritz, Philipp", "Levine, Sergey", "Jordan, Michael", "Abbeel, Pieter"]
+  date: 2016
+  parent:
+    type: proceedings
+    title: "International Conference on Learning Representations (ICLR)"
