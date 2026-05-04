@@ -4,29 +4,67 @@
   title: [Reinforcement Learning for SAM Prompts \
   #text(size: 10pt)[May 4, 2026; CSCE 775]],
   abstract: [
-    We benchmark point selection strategies for single-shot semantic segmentation under a shared frozen DINOv2 plus Segment Anything Model (SAM) pipeline on FSS-1000, comparing eleven heuristics, a behavioral-cloning policy, and a Proximal Policy Optimization (PPO) fine-tune. Under a unified action space, the strongest heuristic, similarity-weighted Farthest Point Sampling at $alpha = 0.75$, achives a $0.768$ mean IoU (mIoU) using 5 points ($N = 5$); behavioral cloning of a greedy oracle reaches $0.672$ mIoU; and two reinforcement-learning (RL) fine-tunes warm-started from the cloned policy reach $0.864$ mIoU at $N = 5$ and $0.866$ mIoU at $N = 10$, with improvements of $0.193$ and $0.281$ over the behavioral cloning approach. On the canonical FSS-1000 one-shot subset, the same policies reach $0.876$ and $0.875$, surpassing PerSAM and SegGPT and approaching Matcher, which relies on the same DINOv2 plus SAM backbone.
+    // REVIEW NOTES (J.C.):
+    // 1. Opening 3 sentences are wordy and use "unsupervised" incorrectly.
+    //    SAM is supervised (trained on SA-1B); correct term is "class-agnostic"
+    //    or "promptable". Consider collapsing to one sentence, e.g.:
+    //    "Class-agnostic promptable models such as SAM can speed up segmentation
+    //    in new domains, but they still depend on well-chosen point prompts."
+    // 2. "We believe that..." is a soft hedge — abstracts should assert.
+    // 3. "Thus, we have evaluated..." is a weak transition; "We benchmark..." is stronger.
+    // 4. Typo: "achives" -> "achieves".
+    // 5. Results section reports only the gap to BC ($0.193$/$0.281$). The earlier
+    //    draft also reported the gap to the strongest heuristic ($0.096$/$0.136$),
+    //    which is more informative since the heuristic is a stronger baseline.
+    // 6. Consider closing with a one-line takeaway, e.g.:
+    //    "These results suggest that learned point selectors close most of the gap
+    //    between point-prompted SAM and dense-correspondence one-shot methods."
+    Segmentation is a particularly time-consuming task. We
+    believe that unsupervised point-prompt-based // FIXME: "unsupervised" -> "promptable" or "class-agnostic"
+    segmentation models can help speed up segmentation for
+    new domains. The unsupervised models are class agnostic
+    which means that human-supervised point-prompts are still required to get
+    masks. Thus, we have evaluated point selection // NOTE: "Thus" is soft — consider "We benchmark..."
+    strategies for single-shot semantic segmentation under a
+    shared frozen DINOv2 plus Segment Anything Model (SAM)
+    pipeline on FSS-1000, comparing eleven heuristics, a
+    behavioral-cloning policy, and a Proximal Policy
+    Optimization (PPO) fine-tune. Under a unified action
+    space, the strongest heuristic, similarity-weighted
+    Farthest Point Sampling at $alpha = 0.75$, achives a // FIXME typo: "achives" -> "achieves"
+    $0.768$ mean IoU (mIoU) using 5 points ($N = 5$);
+    behavioral cloning of a greedy oracle reaches $0.672$
+    mIoU; and two reinforcement-learning (RL) fine-tunes
+    warm-started from the cloned policy reach $0.864$ mIoU
+    at $N = 5$ and $0.866$ mIoU at $N = 10$, with
+    improvements of $0.193$ and $0.281$ over the behavioral
+    cloning approach. // NOTE: also report gap to strongest heuristic ($0.096$/$0.136$) — more informative baseline
+    On the canonical FSS-1000 one-shot
+    subset, the same policies reach $0.876$ and $0.875$,
+    surpassing PerSAM and SegGPT and approaching Matcher,
+    which relies on the same DINOv2 plus SAM backbone.
   ],
   authors: (
     (
       name: "J.C. Vaught",
-      department: [Dept. of Mechanical Engineering],
-      organization: [University of South Carolina],
-      location: [Columbia, SC, USA],
+      // department: [Dept. of Mechanical Engineering],
+      // organization: [University of South Carolina],
+      // location: [Columbia, SC, USA],
       email: ""
     ),
     (
       name: "Xeerak Muhammad",
-      department: [Dept. of Computer Science],
-      organization: [University of South Carolina],
-      location: [Columbia, SC, USA],
-      email: ""
+      // department: [Dept. of Computer Science],
+      // organization: [University of South Carolina],
+      // location: [Columbia, SC, USA],
+      // email: ""
     ),
     (
       name: "Jacob Whisenant",
-      department: [Dept. of Mechanical Engineering],
-      organization: [University of South Carolina],
-      location: [Columbia, SC, USA],
-      email: ""
+      // department: [Dept. of Mechanical Engineering],
+      // organization: [University of South Carolina],
+      // location: [Columbia, SC, USA],
+      // email: ""
     ),
   ),
   bibliography: none,
@@ -64,7 +102,7 @@ selection rules poorly characterized.
   scope: "parent",
 ) <fig:state_action>
 
-We address this gap with a benchmark of eleven non-trained point selection strategies, a behavioral-cloning (BC) policy, and a reinforcement-learning (RL) fine-tune, all evaluated on FSS-1000 @li2020fss1000 over $N in {1, 2, 3, 5, 7, 10}$. All methods share an identical front-end and back-end, namely a DINOv2 ViT-L/14 encoder and a SAM ViT-H decoder, so that the only source of variation is from the $N$ prompt locations that are drawn from the shared similarity map. To remove a residual source of confound, we additionally quantize every selector's output to a shared $37 times 37$ grid before passing it to SAM, so that heuristic, imitation, and reinforcement-learning policies all operate in the same action space. Across this benchmark, the RL fine-tune outperforms the strongest spread-based heuristic by $0.096$ mIoU at $N = 5$ and breaks the plateau-and-decline pattern that every non-trained selector exhibits.
+We address this gap with a benchmark of eleven non-trained point selection strategies, a behavioral-cloning (BC) policy, and a reinforcement-learning (RL) fine-tune, all evaluated on FSS-1000 @li2020fss1000 over $N in {1, 2, 3, 5, 7, 10}$. All methods share an identical front-end and back-end, namely a DINOv2 ViT-L/14 encoder and a SAM ViT-H decoder, so that the only source of variation is from the $N$ prompt locations that are drawn from the shared similarity map. To remove a residual source of confound, we additionally quantize every selector's output to a shared $37 times 37$ grid before passing it to SAM, so that heuristic, imitation, and reinforcement-learning policies all operate in the same action space. Across this benchmark, the RL fine-tune outperforms the strongest spread-based heuristic by and breaks the plateau-and-decline pattern that every non-trained selector exhibits.
 
 = Related Work
 
@@ -81,6 +119,7 @@ A separate line of work trains networks to consume simulated point-clicks for in
   scope: "parent",
 ) <fig:policy_arch>
 
+
 = Method
 
 == Pipeline and notation
@@ -88,13 +127,6 @@ A separate line of work trains networks to consume simulated point-clicks for in
 We benchmark thirteen point selection strategies under a shared single-shot semantic segmentation pipeline. Each episode consists of a support image with a support binary mask and a query image whose ground-truth mask is held out for evaluation. A frozen DINOv2 ViT-L/14 encoder maps both images to dense patch features at $224 times 224$ resolution, and patch features are bilinearly upsampled to the input grid so that every pixel carries a feature vector. The support prototype $p in RR^d$ is obtained by masked average pooling of the support feature map under the support mask, and the query similarity map is the cosine similarity between $p$ and each query feature. We denote this map by $S in [0, 1]^(H times W)$, where $H = W = 224$. The map is precomputed once per episode and cached, so every selection strategy receives the same input and any differences in downstream segmentation are attributed to point selection.
 
 Given a fixed budget of point-prompts ($N$), a selection strategy is a deterministic or stochastic function that returns a point set $cal(P)_N = {(x_i, y_i)}_(i=1)^(N)$ with $(x_i, y_i) in {1, dots, W} times {1, dots, H}$. The point set is passed to a frozen SAM ViT-H decoder, where every point is treated as a positive label and no negative labels or box prompts are supplied. The decoder returns a single binary mask that is compared against the ground truth mask. To make heuristic, imitation, and reinforcement-learning selectors directly comparable at the prompt level, every chosen pixel coordinate is quantized to the nearest center of a shared $37 times 37$ grid before being passed to SAM. The grid resolution arises naturally from the BC oracle's candidate set, defined on this grid for tractable training, and we apply the same quantization to every selection rule so that all methods operate in a single action space.
-
-#figure(
-  image("figures/01_rl_loop.pdf", width: 100%),
-  caption: [Reinforcement-learning interaction loop. At each step the policy maps the multi-channel state to a $37 times 37$ logit, samples a discrete point cell, passes it to SAM, and receives a reward equal to the change in IoU between the new and previous mask; the episode terminates after $N$ points.],
-  placement: top,
-  scope: "parent",
-) <fig:rl_loop>
 
 == Heuristic selectors
 
@@ -106,6 +138,13 @@ In addition to the eleven heuristics, we evaluate a learned policy trained by be
 
  The loss is a Gaussian-kernel-density formulation of cross-entropy in which the oracle target is rendered as a Gaussian heatmap with $sigma = 2$ grid cells, so that the gradient signal degrades gracefully near the correct cell rather than treating any non-exact prediction as equally wrong. We add an auxiliary IoU loss term that, on a sub-batch of training examples, decodes the policy's argmax point and computes IoU against the ground-truth mask, providing a small, IoU-aligned supervisory signal. To match the inference-time setting, where re-clicking an already-clicked cell is meaningless, we mask previously-clicked cells out of the policy's logit space at training time. #highlight(fill: rgb("#FFB6C1"))[We train one policy per budget $N in {2, 5, 10}$ on the FSS-1000 train classes, select checkpoints by full-validation rollout IoU on the $450$ validation episodes, and evaluate on the held-out test split using the same eval setup as the heuristic baselines.]
 
+#figure(
+  image("figures/01_rl_loop.pdf", width: 100%),
+  caption: [Reinforcement-learning interaction loop. At each step the policy maps the multi-channel state to a $37 times 37$ logit, samples a discrete point cell, passes it to SAM, and receives a reward equal to the change in IoU between the new and previous mask; the episode terminates after $N$ points.],
+  placement: top,
+  scope: "parent",
+) <fig:rl_loop>
+ 
 == Reinforcement-learning fine-tune
 
 The behavioral-cloning policy provides a strong initialization, but its training signal is the oracle's point identity rather than SAM's mask quality. To align the optimization signal with the actual evaluation criterion, we additionally fine-tune the cloned policy with reinforcement learning using SAM's IoU as the per-step reward. The setting is naturally formulated as a finite-horizon Markov decision process (MDP), illustrated in @fig:rl_loop. The state at step $t$ is $s_t = (Q, S, C_t, M_(t-1))$, where $Q$ denotes the projected DINOv2 query features, $S$ is the cosine similarity map, $C_t$ is the binary click-history mask after $t-1$ placements, and $M_(t-1)$ is SAM's mask under the prior prompt set. The action $a_t$ is a discrete pixel on the same $37 times 37$ grid the BC oracle was defined on, which preserves warm-start consistency. The reward at step $t$ is the marginal IoU gain $r_t = "IoU"(M_t, M^*) - "IoU"(M_(t-1), M^*)$, where $M^*$ is the ground-truth mask.
@@ -218,11 +257,11 @@ We report two ablations using existing data, each isolating one design choice.
 
 === Effect of warm-start initialization
 
-The PPO fine-tune is warm-started from the BC best checkpoint and KL-anchored to that same reference policy. Without the warm start, the policy network and the value head would both be initialized from scratch, and the KL anchor would reduce to a regularizer toward a degenerate prior. The relevant comparison in our data is between the BC starting point ($0.672$ mIoU at $N = 5$) and the PPO converged checkpoint ($0.864$ mIoU at $N = 5$), demonstrating that PPO recovers an additional $0.193$ IoU starting from a non-degenerate prior. The KL anchor at $beta = 0.1$ decaying to $0.01$ keeps the policy close to the BC reference early in training, when the value-function estimate is still noisy and unconstrained gradient steps would be most likely to destroy the warm-start signal.
+The PPO fine-tune is warm-started from the BC best checkpoint and Kullback-Leibler (KL)-anchored to that same reference policy. Without the warm start, the policy network and the value head would both be initialized from scratch, and the KL anchor would reduce to a regularizer toward a degenerate prior. The relevant comparison in our data is between the BC starting point ($0.672$ mIoU at $N = 5$) and the PPO converged checkpoint ($0.864$ mIoU at $N = 5$), demonstrating that PPO recovers an additional $0.193$ IoU starting from a non-degenerate prior. The KL anchor at $beta = 0.1$ decaying to $0.01$ keeps the policy close to the BC reference early in training, when the value-function estimate is still noisy and unconstrained gradient steps would be most likely to destroy the warm-start signal.
 
 === Effect of action-space discretization
 
-The $37 times 37$ grid discretization is could be considered as an artificial constraint. Thus, we compare the heuristic numbers under the grid-snapped protocol against the same heuristics evaluated at full $224 times 224$ pixel resolution on our in-domain split. The strongest heuristic, similarity-weighted FPS at $alpha = 0.75$, scores $0.759$ mIoU at $N = 5$ at full resolution and $0.768$ at $N = 5$ under grid quantization, a shift of $+0.009$ IoU. The grid-snapping step slightly improves the heuristics on average because it enforces a minimum spacing between selected pixels, partially solving the redundant-points problem on its own. The Top-K argmax decay shape is preserved: at $N in {1, 2, 5}$, the full-resolution IoU sequence is $(0.594, 0.586, 0.499)$ versus $(0.585, 0.579, 0.502)$ under grid quantization. Thus , the win for RL is not an artifact of the discretization. The grid step alone fails to close the gap to $0.864$ mIoU that the RL policy reaches under the same protocol.
+The $37 times 37$ grid discretization could be considered as an artificial constraint. Thus, we compare the heuristic numbers under the grid-snapped protocol against the same heuristics evaluated at full $224 times 224$ pixel resolution on our in-domain split. The strongest heuristic, similarity-weighted FPS at $alpha = 0.75$, scores $0.759$ mIoU at $N = 5$ at full resolution and $0.768$ at $N = 5$ under grid quantization, a shift of $+0.009$ IoU. The grid-snapping step slightly improves the heuristics on average because it enforces a minimum spacing between selected pixels, partially solving the redundant-points problem on its own. The Top-K argmax decay shape is preserved: at $N in {1, 2, 5}$, the full-resolution IoU sequence is $(0.594, 0.586, 0.499)$ versus $(0.585, 0.579, 0.502)$ under grid quantization. Thus , the win for RL is not an artifact of the discretization. The grid step alone fails to close the gap to $0.864$ mIoU that the RL policy reaches under the same protocol.
 
 #figure(
   image("figures/per_step_n5.pdf", width: 100%),
@@ -232,46 +271,46 @@ The $37 times 37$ grid discretization is could be considered as an artificial co
 
 == Cross-domain smoke test
 
-#highlight(fill: rgb("#FFB6C1"))[We additionally ran a small cross-domain smoke test on Kvasir-SEG, a polyp segmentation dataset from medical imaging. Ten random support-query image pairs were sampled, with no class-disjoint structure (the dataset has only the polyp class). The same DINOv2-L sim-map and SAM ViT-H decoder were used; the heuristic, BC, and RL policies were applied without retraining. The strongest heuristic, similarity-weighted FPS at $N = 5$, reached only $0.149$ mean IoU on the ten pairs. The BC policy reached $0.357$ and the RL fine-tune reached $0.339$. All three values represent substantial degradation relative to FSS-1000, consistent with significant out-of-distribution shift from natural-image few-shot data to medical imagery. The heuristic crashes hardest because it relies entirely on the DINOv2 cosine similarity map, which itself degrades under domain shift; the learned policies (BC and RL), which take richer DINOv2 query features as additional input, degrade more gracefully but show no clear RL-over-BC advantage in this OOD setting.] 
+#highlight(fill: rgb("#FFB6C1"))[We additionally ran a small cross-domain smoke test on Kvasir-SEG, a polyp segmentation dataset from medical imaging. Ten random support-query image pairs were sampled, with no class-disjoint structure (the dataset has only the polyp class). The same DINOv2-L sim-map and SAM ViT-H decoder were used; the heuristic, BC, and RL policies were applied without retraining. The strongest heuristic, similarity-weighted FPS at $N = 5$, reached only $0.149$ mIoU on the ten pairs. The BC policy reached $0.357$ mIoU and the RL fine-tune reached $0.339$ mIoU. All three values represent substantial degradation relative to FSS-1000, consistent with significant out-of-distribution shift from natural-image few-shot data to medical imagery. The heuristic crashed the hardest because it relies entirely on the DINOv2 cosine similarity map, which itself degrades under domain shift; the learned policies (BC and RL), which take richer DINOv2 query features as additional input, degrade more gracefully but show no clear RL-over-BC advantage in this OOD setting.] 
 
 == Representative examples
 
- #highlight(fill: rgb("#FFB6C1"))[The visual contrast confirms the quantitative story of @tab:test_results: the RL fine-tune is consistently competitive, BC has individual-episode failure modes at long horizons, and heuristics depend heavily on the scene.]
+ #highlight(fill: rgb("#FFB6C1"))[The visual contrast confirms the results of @tab:test_results: the RL fine-tune is consistently competitive, BC has individual-episode failure modes at long horizons, and heuristics depend heavily on the scene.]
 
 == Inference cost
 
-#highlight(fill: rgb("#FFB6C1"))[Wall-clock cost is not the limiting factor for any of the strategies considered. Most heuristic methods run in under thirty milliseconds per call on a single GPU at the resolutions used here. The slowest heuristic case is the DPP with $ell = 18$ at $N = 10$, which reaches roughly forty-five milliseconds because of the eigendecomposition of its kernel. The fastest are Top-K argmax and quantile-spaced selection at approximately seven milliseconds. The BC and RL policies' per-step inference cost is dominated by the SAM decoder call itself; the policy network's contribution is a small additional CNN forward pass that runs in single-digit milliseconds.]
+#highlight(fill: rgb("#FFB6C1"))[Wall-clock cost is not the limiting factor for any of the strategies considered. Most heuristic methods run in under thirty milliseconds per call on a single GPU at the resolutions used here. The slowest heuristic case is the DPP with $ell = 18$ at $N = 10$, which reaches roughly forty-five milliseconds because of the eigen decomposition of its kernel. The fastest are Top-K argmax and quantile-spaced selection at approximately seven milliseconds. The BC and RL policies' per-step inference cost is dominated by the SAM decoder call itself; the policy network's contribution is a small additional CNN forward pass that runs in single-digit milliseconds.]
 
 = Discussion
 
 == Imitation hits a ceiling, reward breaks it
 
-The clearest empirical finding of this work is the contrast between the per-step trajectory shapes of imitation and reward-driven policies. #highlight(fill: rgb("#FFB6C1"))[The behavior of Top-K argmax is the cleanest diagnostic: its mean IoU falls monotonically from $0.585$ at $N = 1$ to $0.379$ at $N = 10$, a drop of $20.6$ points across the budget range. The mechanism is geometric. Confidence-only selection draws its top points from a tight neighborhood around the global similarity maximum, and adding more such points does not enrich the prompt set so much as reinforce a single locus. SAM's prompt encoder is designed to consume each click as an additional disambiguating constraint on the latent mask, but redundant clicks at essentially the same spatial location carry no new disambiguation.] The four Tier-1 heuristics, which enforce spatial separation in different ways, all converge to within $0.05$ IoU at their respective peaks, suggesting that what SAM wants from its prompt set is decorrelation rather than any specific separation rule.
+The clearest empirical finding of this work is the contrast between the per-step trajectory shapes of imitation and reward-driven policies. #highlight(fill: rgb("#FFB6C1"))[The behavior of Top-K argmax is the cleanest diagnostic: its mIoU falls monotonically from $0.585$ mIoU at $N = 1$ to $0.379$ mIoU at $N = 10$, a drop of $20.6$ points across the budget range. Confidence-only selection draws its top points from a tight neighborhood around the global similarity maximum, and adding more such points does not enrich the prompt set. SAM's prompt encoder is designed to consume each point as an additional disambiguating constraint on the latent mask, but redundant points at essentially the same spatial location carry no new disambiguation.] The four Tier-1 heuristics, which enforce spatial separation in different ways, all converge to within $0.05$ IoU at their respective peaks, suggesting that what SAM wants from its prompt set is decorrelation rather than any specific separation rule.
 
-The behavioral-cloning policy provides a more interesting case. The greedy oracle that BC imitates is itself SAM-aware, in the sense that each oracle click is selected by maximizing IoU under SAM. Yet a policy trained to clone the oracle's click identities does not match the oracle's per-step trajectory. The cloned policy reproduces a pattern of plateau and decline rather than the oracle's continued ascent, peaking at click step $3$ at $N = 10$ and degrading thereafter. Imitation alone, even of a strong oracle, appears to inherit the heuristic-style ceiling rather than break through it.
+The behavioral-cloning policy provides a more interesting case. The greedy oracle that BC imitates is itself SAM-aware, in the sense that each oracle point is selected by maximizing IoU under SAM. Yet a policy trained to clone the oracle's click identities does not match the oracle's per-step trajectory. The cloned policy reproduces a pattern of plateau and decline rather than the oracle's continued ascent, peaking at point step $3$ at $N = 10$ and degrading thereafter. Imitation alone, even of a strong oracle, appears to inherit the heuristic-style ceiling rather than break through it.
 
-The plateau-and-decline shape that bounds the heuristic family and the imitation policy is broken cleanly by reward-driven training. The operative difference is the alignment of the optimization signal. Imitation forces the policy to commit to the specific cells the oracle chose at each step, which is brittle on the test distribution; reward-driven training lets the policy choose any cell whose click happens to improve SAM's mask, and over many gradient steps that flexibility lets the policy discover click sequences whose joint information content exceeds anything any single oracle trajectory exhibits.
+The plateau-and-decline that bounds the heuristic family and the imitation policy is broken cleanly by reward-driven training. The operative difference is the alignment of the optimization signal. Imitation forces the policy to commit to the specific cells the oracle chose at each step, which is brittle on the test distribution; reward-driven training lets the policy choose any cell whose click happens to improve SAM's mask, and over many gradient steps that flexibility lets the policy discover point sequences whose joint information content exceeds anything any single oracle trajectory exhibits.
 
 == Spatial spread, similarity floor, and action-space effects
 
 
-#highlight(fill: rgb("#FFB6C1"))[The catastrophic failures of pure FPS and quantile-spaced selection sharpen this picture from the opposite direction. Both collapse below $0.20$ mean IoU past $N = 1$. After the first seed, pure FPS optimizes spatial distance with no regard for feature similarity, and on the small objects typical of FSS-1000 _far from chosen points_ usually means _outside the object_. SAM treats every click as a positive label, so it grows the mask outward to encompass the resulting background clicks. Quantile-spaced selection has the same defect by construction.] The general lesson is that any selector must enforce a similarity floor: every chosen point must lie in a region whose feature similarity is consistent with the support prototype, regardless of whether the rule is heuristic or learned.
+#highlight(fill: rgb("#FFB6C1"))[The catastrophic failures of pure FPS and quantile-spaced selection sharpen this picture from the opposite direction. Both collapse below $0.20$ mIoU past $N = 1$. After the first seed, pure FPS optimizes spatial distance with no regard for feature similarity, and on the small objects typical of FSS-1000 _far from chosen points_ usually means _outside the object_. SAM treats every point as a positive label, so it grows the mask outward to encompass the resulting background points. Quantile-spaced selection has the same defect by construction.] The general lesson is that any selector must enforce a similarity floor: every chosen point must lie in a region whose feature similarity is consistent with the support prototype, regardless of whether the rule is heuristic or learned.
 
-The cluster-spread metric tells a complementary story for the learned policies. The mean pairwise click distance under RL is $69.5$ pixels at $N = 5$ and $69.3$ pixels at $N = 10$, essentially invariant across budgets. Under BC, the same metric contracts from $47.9$ pixels at $N = 2$ to $34.1$ pixels at $N = 10$, indicating that the imitation policy gradually re-introduces redundancy as the budget grows even when train-time masking explicitly penalizes immediate re-clicking. Reward-driven training discovers a budget-aware placement strategy; imitation discovers a fixed pattern that fails to use the longer horizon productively. The action-space ablation confirms this is not a discretization artifact: the heuristic numbers shift by less than $0.01$ IoU when the same selectors are evaluated under the unified $37 times 37$ grid versus full pixel resolution.
+The cluster-spread metric tells a complementary story for the learned policies. The mean pairwise point distance under RL is $69.5$ pixels at $N = 5$ and $69.3$ pixels at $N = 10$, essentially invariant across budgets. Under BC, the same metric contracts from $47.9$ pixels at $N = 2$ to $34.1$ pixels at $N = 10$, indicating that the imitation policy gradually re-introduces redundancy as the budget grows even when train-time masking explicitly penalizes immediate re-clicking. Reward-driven training discovers a budget-aware placement strategy; imitation discovers a fixed pattern that fails to use the longer horizon productively. The action-space ablation confirms this is not a discretization artifact: the heuristic numbers shift by less than $0.01$ IoU when the same selectors are evaluated under the unified $37 times 37$ grid versus full pixel resolution.
 
 == Limitations and future work <sec:limitations>
 
-Several caveats temper these conclusions. The benchmark was conducted on FSS-1000 alone, and the cross-domain smoke test on Kvasir-SEG suggests that all three method classes degrade substantially under medical-domain shift, with the heuristic family degrading hardest because of similarity-map degradation. We leave full medical-domain evaluation, including potentially domain-adapted features and proper episode protocols, to future work. All clicks in this study were treated as positive labels; neither negative-click prompts nor bounding-box prompts were explored, although both are first-class citizens in SAM's prompt vocabulary. Extending the policy's action space to include negative clicks is a particularly natural next step because negative clicks are the standard way to correct over-segmentation, and the present action space cannot issue them. The class-disjoint split rules out within-class memorization but does not probe cross-domain generalization at scale; a multi-dataset evaluation including Pascal-$5^i$ and COCO-$20^i$ would strengthen the headline claim. Finally, we report a single PPO seed per budget; multi-seed stability and the dependence on warm-start quality remain to be characterized.
+The benchmark was conducted on FSS-1000 alone, and the cross-domain smoke test on Kvasir-SEG suggests that all three method classes degrade substantially under medical-domain shift, with the heuristic family degrading hardest because of similarity-map degradation. We leave full medical-domain evaluation, including potentially domain-adapted features and proper episode protocols, to future work. All points in this study were treated as positive labels; neither negative-point prompts nor bounding-box prompts were explored, although both are important in SAM's prompt vocabulary. Extending the policy's action space to include negative points is a particularly natural next step because negative points are the standard way to correct over-segmentation, and the present action space cannot issue them. The class-disjoint split rules out within-class memorization but does not probe cross-domain generalization at scale; a multi-dataset evaluation including Pascal-$5^i$ and COCO-$20^i$ would strengthen the headline claim. Finally, we report a single PPO seed per budget; multi-seed stability and the dependence on warm-start quality remain to be characterized.
 
 = Conclusion
 
 #figure(
   image("figures/per_step_n10.pdf", width: 100%),
-  caption: [Per-step rollout IoU at $N = 10$ on FSS-1000 test, comparing BC against the RL fine-tune at $N = 10$. BC peaks at point $3$ ($0.645$) and declines monotonically through step $10$ ($0.586$ mIoU); RL rises sharply through step $6$ and then sits on a flat plateau between $0.866$ and $0.869$ mIoU through step $10$, sustaining its peak quality across the entire long-horizon budget.],
+  caption: [Per-step rollout IoU at $N = 10$ on FSS-1000 test, comparing BC against the RL fine-tune at $N = 10$. BC peaks at point $3$ ($0.645$ mIoU) and declines monotonically through step $10$ ($0.586$ mIoU); RL rises sharply through step $6$ and then sits on a flat plateau between $0.866$ and $0.869$ mIoU through step $10$, sustaining its peak quality across the entire long-horizon budget.],
   placement: top,
 ) <fig:per_step_n10>
 
-#highlight(fill: rgb("#FFB6C1"))[We presented a controlled comparison of point selection strategies for single-shot semantic segmentation under a shared DINOv2 and SAM pipeline on FSS-1000, with all selectors operating in a unified $37 times 37$ action space so that heuristic, imitation, and reinforcement-learning methods are directly comparable at the prompt level, and we additionally benchmarked the best of these methods against four external few-shot segmentation systems on the canonical FSS-1000 one-shot test protocol restricted to a $66$-class subset disjoint from our training set.]  The reinforcement-learning policies rise sharply through their first six clicks and then sit on a high plateau, breaking the plateau-and-decline shape that every other method exhibits. The empirical claim of the paper is that imitation alone cannot break the SAM-imposed ceiling that bounds the heuristic family, but that aligning the optimization signal with SAM's actual mask quality, via reinforcement learning warm-started from a behavioral-cloning prior, can.
+#highlight(fill: rgb("#FFB6C1"))[We presented a controlled comparison of point selection strategies for single-shot semantic segmentation under a shared DINOv2 and SAM pipeline on FSS-1000, with all selectors operating in a unified $37 times 37$ action space so that heuristic, imitation, and reinforcement-learning methods are directly comparable at the prompt level, and we additionally benchmarked the best of these methods against four external few-shot segmentation systems on the canonical FSS-1000 one-shot test protocol restricted to a $66$-class subset disjoint from our training set.] The reinforcement-learning policies rise sharply through their first six points and then sit on a high plateau, breaking the plateau-and-decline shape that every other method exhibits. The empirical claim of the paper is that imitation alone cannot break the SAM-imposed ceiling that bounds the heuristic family, but that aligning the optimization signal with SAM's actual mask quality, via reinforcement learning warm-started from a behavioral-cloning prior.
 
 #pagebreak()
 
