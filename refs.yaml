@@ -166,3 +166,66 @@ schulman2016gae:
   parent:
     type: proceedings
     title: "International Conference on Learning Representations (ICLR)"
+
+rajic2024sampt:
+  type: article
+  title: "Segment Anything Meets Point Tracking"
+  author: ["Raji{ć}, Frano", "Ke, Lei", "Tai, Yu-Wing", "Tang, Chi-Keung", "Danelljan, Martin", "Yu, Fisher"]
+  date: 2024
+  parent:
+    type: proceedings
+    title: "European Conference on Computer Vision (ECCV)"
+
+zhang2024gfsam:
+  type: article
+  title: "Bridge the Points: Graph-based Few-shot Segment Anything Semantically"
+  author: ["Zhang, Anqi", "Gao, Guangyu", "Jiao, Jianbo", "Liu, Chi Harold", "Wei, Yunchao"]
+  date: 2024
+  parent:
+    type: proceedings
+    title: "Advances in Neural Information Processing Systems (NeurIPS)"
+
+wei2024sapnet:
+  type: article
+  title: "Semantic-aware SAM for Point-Prompted Instance Segmentation"
+  author: ["Wei, Zhaoyang", "Chen, Pengfei", "Yu, Xuehui", "Li, Guorong", "Jiao, Jianbin", "Han, Zhenjun"]
+  date: 2024
+  parent:
+    type: proceedings
+    title: "IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)"
+
+ke2023hqsam:
+  type: article
+  title: "Segment Anything in High Quality"
+  author: ["Ke, Lei", "Ye, Mingqiao", "Danelljan, Martin", "Liu, Yifan", "Tai, Yu-Wing", "Tang, Chi-Keung", "Yu, Fisher"]
+  date: 2023
+  parent:
+    type: proceedings
+    title: "Advances in Neural Information Processing Systems (NeurIPS)"
+
+fan2025stablesam:
+  type: article
+  title: "Stable Segment Anything Model"
+  author: ["Fan, Qi", "Tao, Xin", "Ke, Lei", "Ye, Mingqiao", "Zhang, Yuan", "Wan, Pengfei", "Wang, Zhongyuan", "Tai, Yu-Wing", "Tang, Chi-Keung"]
+  date: 2025
+  parent:
+    type: proceedings
+    title: "International Conference on Learning Representations (ICLR)"
+
+antonov2024rclicks:
+  type: article
+  title: "RClicks: Realistic Click Simulation for Benchmarking Interactive Segmentation"
+  author: ["Antonov, Anton", "Moskalenko, Andrey", "Shepelev, Denis", "Krapukhin, Alexander", "Soshin, Konstantin", "Konushin, Anton", "Shakhuro, Vlad"]
+  date: 2024
+  parent:
+    type: proceedings
+    title: "Advances in Neural Information Processing Systems (NeurIPS)"
+
+sun2024vrpsam:
+  type: article
+  title: "VRP-SAM: SAM with Visual Reference Prompt"
+  author: ["Sun, Yanpeng", "Chen, Jiahui", "Zhang, Shan", "Zhang, Xinyu", "Chen, Qiang", "Zhang, Gang", "Ding, Errui", "Wang, Jingdong", "Li, Zechao"]
+  date: 2024
+  parent:
+    type: proceedings
+    title: "IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)"
