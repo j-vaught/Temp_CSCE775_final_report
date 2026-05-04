@@ -45,32 +45,32 @@
       stroke: none,
       fill: rgb("#FFFFFFEE"),
       orientation: ttb,
-      item: (spacing: 0.18),
+      item: (spacing: 0.10),
     ),
     {
       // Best non-trained baseline reference (sim-weighted FPS at N=5)
       plot.add(
         ((0.7, baseline_n5), (5.3, baseline_n5)),
-        label: [Sim-weighted FPS at $N=5$ (best non-trained)],
-        style: (stroke: (paint: rgb("#A49137"), thickness: 1.4pt, dash: "dashed")),
+        label: [Sim-weighted FPS],
+        style: (stroke: (paint: rgb("#A49137"), thickness: 1.0pt, dash: "dashed")),
         mark: none,
       )
       // RL fine-tune
       plot.add(
         rl_n5,
-        label: [RL fine-tune (PPO, warm-start)],
-        style: (stroke: (paint: rgb("#73000A"), thickness: 3.0pt)),
+        label: [RL PPO],
+        style: (stroke: (paint: rgb("#73000A"), thickness: 1.5pt)),
         mark: "triangle",
-        mark-size: 0.22,
+        mark-size: 0.18,
         mark-style: (stroke: rgb("#73000A"), fill: rgb("#73000A")),
       )
       // BC v2
       plot.add(
         bc_n5,
-        label: [BC v2 (DINO + masked + Gauss + IoU aux)],
-        style: (stroke: (paint: rgb("#466A9F"), thickness: 2.2pt)),
+        label: [Behavioral Cloning],
+        style: (stroke: (paint: rgb("#466A9F"), thickness: 1.5pt)),
         mark: "square",
-        mark-size: 0.16,
+        mark-size: 0.13,
         mark-style: (stroke: rgb("#466A9F"), fill: rgb("#466A9F")),
       )
     },
