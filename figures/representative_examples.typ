@@ -36,7 +36,7 @@
   column-header("Query"),
   column-header("Top-K argmax"),
   column-header("Sim-weighted FPS"),
-  column-header("BC v2"),
+  column-header("BC"),
   column-header("RL fine-tune"),
   // park bench
   row-header("Park Bench"),

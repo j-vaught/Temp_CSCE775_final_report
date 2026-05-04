@@ -7,7 +7,7 @@
 
 // Per-step rollout IoU at N=5 on FSS-1000 test (450 episodes).
 // RL: artifacts/rl/runs/fss1000_rl_ppo_n5_warmstart/per_step_rollout_iou.csv
-// BC: artifacts/greedy_bc/diagnostics/fss1000_greedy_bc_v2/budget_N5/per_step_rollout_iou.csv
+// BC N=5: artifacts/greedy_bc/diagnostics/fss1000_greedy_bc_v2/budget_N5/per_step_rollout_iou.csv
 #let rl_n5 = (
   (1, 0.5420),
   (2, 0.7863),
@@ -64,7 +64,7 @@
         mark-size: 0.18,
         mark-style: (stroke: rgb("#73000A"), fill: rgb("#73000A")),
       )
-      // BC v2
+      // BC
       plot.add(
         bc_n5,
         label: [Behavioral Cloning],
