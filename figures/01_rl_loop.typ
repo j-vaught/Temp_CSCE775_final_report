@@ -27,25 +27,27 @@
   let y-b = row-cy - row-h / 2
   let y-t = row-cy + row-h / 2
 
-  // Box specs in left-to-right order.
+  // Box specs in left-to-right order. Fills are lightened brand colors so
+  // black text reads cleanly on every panel (mirrors Figure 2).
+  let mute = 85%
   // (width, fill, text-fill, header content, body content)
   let boxes = (
-    (2.4, sandstorm,            black,
+    (2.4, sandstorm,                  black,
       [State $s_t$],
       none),
-    (3.6, garnet,               white,
+    (3.6, garnet.lighten(mute),       black,
       [Policy $pi_theta$],
       [CNN actor-critic\ 37 #sym.times 37 logits]),
-    (3.0, atlantic,             white,
+    (3.0, atlantic.lighten(mute),     black,
       [Action $a_t$],
       [one cell on grid]),
-    (4.4, congaree,             white,
+    (4.4, congaree.lighten(mute),     black,
       [SAM Environment],
       [grid cell #sym.arrow pixel click\ re-run SAM, get new mask]),
-    (3.4, horseshoe,            white,
+    (3.4, horseshoe.lighten(mute),    black,
       [Reward $r_t$],
       [$"IoU"_t - "IoU"_(t-1)$]),
-    (2.4, light10,              black,
+    (2.4, light10,                    black,
       [$s_(t+1)$],
       none),
   )

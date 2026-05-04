@@ -30,22 +30,24 @@
   let y-b = row-cy - row-h / 2
   let y-t = row-cy + row-h / 2
 
-  // Main-row boxes left-to-right.
+  // Main-row boxes left-to-right. Lightened brand fills with black text so
+  // the palette mirrors Figure 2.
+  let mute = 85%
   // (width, fill, text-fill, header, body)
   let boxes = (
-    (3.0, light10,    black,
+    (3.0, light10,                   black,
       [BC checkpoint],
       [$pi_("BC")$\ pretrained on oracle]),
-    (3.6, garnet,     white,
+    (3.6, garnet.lighten(mute),      black,
       [PPO policy $pi_theta$],
       [actor + backbone from BC,\ fresh value head]),
-    (3.8, atlantic,   white,
+    (3.8, atlantic.lighten(mute),    black,
       [Rollout collection],
       [32 envs #sym.times $T$ steps\ ($T$ = 5 or 10)]),
-    (3.4, congaree,   white,
+    (3.4, congaree.lighten(mute),    black,
       [GAE advantages],
       [$gamma = 1.0,  lambda = 0.95$]),
-    (4.0, horseshoe,  white,
+    (4.0, horseshoe.lighten(mute),   black,
       [PPO update],
       [clip 0.2 #sym.dot 4 epochs #sym.dot mb 32\ LR + entropy: linear decay]),
   )
@@ -113,13 +115,13 @@
   let kl-y-t = kl-cy + kl-h / 2
 
   rect((kl-x-l, kl-y-b), (kl-x-r, kl-y-t),
-    fill: white, stroke: garnet + stroke-bold)
+    fill: garnet.lighten(85%), stroke: black + stroke-thin)
   content((kl-cx, kl-cy + 0.3),
-    text(fill: garnet, weight: "bold", size: fs-label)[KL anchor])
+    text(fill: black, weight: "bold", size: fs-label)[KL anchor])
   content((kl-cx, kl-cy - 0.05),
-    text(size: fs-small)[$beta_t #sym.dot "KL"(pi_theta || pi_("BC"))$])
+    text(fill: black, size: fs-small)[$beta_t #sym.dot "KL"(pi_theta || pi_("BC"))$])
   content((kl-cx, kl-cy - 0.35),
-    text(size: fs-tiny, fill: dark70)[$beta$: 0.1 #sym.arrow 0.01])
+    text(size: fs-tiny, fill: black)[$beta$: 0.1 #sym.arrow 0.01])
 
   // PPO policy -> KL anchor (current pi_theta, vertical)
   line((policy-cx, y-b), (kl-cx, kl-y-t),
@@ -129,34 +131,34 @@
   content((policy-cx + 0.5, y-b - 0.5),
     anchor: "west",
     box(fill: white, inset: (x: 3pt, y: 1pt),
-      text(size: fs-small, weight: "bold")[current $pi_theta$]))
+      text(fill: black, size: fs-small, weight: "bold")[current $pi_theta$]))
 
-  // BC checkpoint -> KL anchor (frozen reference, garnet, elbow down then
-  // right to enter the KL box on its left side)
+  // BC checkpoint -> KL anchor (frozen reference, elbow down then right to
+  // enter the KL box on its left side)
   let bc-cy = centers.at(0).at(1)
   let bc-cx = centers.at(0).at(0)
   line(
     (bc-cx, y-b),
     (bc-cx, kl-cy),
     (kl-x-l, kl-cy),
-    mark: (end: "stealth", fill: garnet),
-    stroke: garnet + stroke-normal,
+    mark: (end: "stealth", fill: black),
+    stroke: black + stroke-normal,
   )
   content(((bc-cx + kl-x-l) / 2, kl-cy + 0.3),
     box(fill: white, inset: (x: 3pt, y: 1pt),
-      text(size: fs-small, fill: garnet, weight: "bold")[frozen reference]))
+      text(size: fs-small, fill: black, weight: "bold")[frozen reference]))
 
-  // KL anchor -> PPO update (regularizer, garnet, elbow right then up)
+  // KL anchor -> PPO update (regularizer, elbow right then up)
   line(
     (kl-x-r, kl-cy),
     (upd-cx, kl-cy),
     (upd-cx, y-b),
-    mark: (end: "stealth", fill: garnet),
-    stroke: garnet + stroke-normal,
+    mark: (end: "stealth", fill: black),
+    stroke: black + stroke-normal,
   )
   content(((kl-x-r + upd-cx) / 2, kl-cy + 0.3),
     box(fill: white, inset: (x: 3pt, y: 1pt),
-      text(size: fs-small, fill: garnet, weight: "bold")[regularizer]))
+      text(size: fs-small, fill: black, weight: "bold")[regularizer]))
 
   // ---- Loop arrow: PPO update back to PPO policy, over the top -------
   let loop-y = y-t + 1.4
@@ -169,7 +171,7 @@
   )
   content(((policy-cx + upd-cx) / 2, loop-y + 0.3),
     box(fill: white, inset: (x: 3pt, y: 1pt),
-      text(size: fs-small, weight: "bold")[
-        update $theta$  #h(2pt) #text(fill: dark70)[(repeat #sym.times 1,000,000 env steps)]
+      text(fill: black, size: fs-small, weight: "bold")[
+        update $theta$  #h(2pt) #text(fill: black)[(repeat #sym.times 1,000,000 env steps)]
       ]))
 })
