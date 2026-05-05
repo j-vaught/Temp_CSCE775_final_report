@@ -1,8 +1,10 @@
 #import "@preview/charged-ieee:0.1.4": ieee
 
 #show: ieee.with(
-  title: [Reinforcement Learning for SAM Prompts \
-  #text(size: 10pt)[May 4, 2026; CSCE 775 | Authored by: J. Vaught; X. Muhammad; J. Whisenant]],
+  title: [
+Reinforcement Learning for SAM Prompts \
+#text(size: 10pt)[May 4, 2026; CSCE 775 | Authored by: J. Vaught; X. Muhammad; J. Whisenant]
+],
   abstract: [
     // 5. Results section reports only the gap to BC ($0.193$/$0.281$). The earlier
     //    draft also reported the gap to the strongest heuristic ($0.096$/$0.136$),
