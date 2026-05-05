@@ -4,45 +4,38 @@
   title: [Reinforcement Learning for SAM Prompts \
   #text(size: 10pt)[May 4, 2026; CSCE 775]],
   abstract: [
-    // REVIEW NOTES (J.C.):
-    // 1. Opening 3 sentences are wordy and use "unsupervised" incorrectly.
-    //    SAM is supervised (trained on SA-1B); correct term is "class-agnostic"
-    //    or "promptable". Consider collapsing to one sentence, e.g.:
-    //    "Class-agnostic promptable models such as SAM can speed up segmentation
-    //    in new domains, but they still depend on well-chosen point prompts."
-    // 2. "We believe that..." is a soft hedge — abstracts should assert.
-    // 3. "Thus, we have evaluated..." is a weak transition; "We benchmark..." is stronger.
-    // 4. Typo: "achives" -> "achieves".
     // 5. Results section reports only the gap to BC ($0.193$/$0.281$). The earlier
     //    draft also reported the gap to the strongest heuristic ($0.096$/$0.136$),
     //    which is more informative since the heuristic is a stronger baseline.
     // 6. Consider closing with a one-line takeaway, e.g.:
     //    "These results suggest that learned point selectors close most of the gap
     //    between point-prompted SAM and dense-correspondence one-shot methods."
-    Segmentation is a particularly time-consuming task. We
-    believe that unsupervised point-prompt-based // FIXME: "unsupervised" -> "promptable" or "class-agnostic"
-    segmentation models can help speed up segmentation for
-    new domains. The unsupervised models are class agnostic
-    which means that human-supervised point-prompts are still required to get
-    masks. Thus, we have evaluated point selection // NOTE: "Thus" is soft — consider "We benchmark..."
+    Creating segmentation annotations is a time-intensive process, 
+    but class-agnostic, point-prompt-based segmentation models—enhanced 
+    with reinforcement learning (RL)—can significantly accelerate 
+    the annotation workflow. We benchmark point selection 
     strategies for single-shot semantic segmentation under a
     shared frozen DINOv2 plus Segment Anything Model (SAM)
     pipeline on FSS-1000, comparing eleven heuristics, a
     behavioral-cloning policy, and a Proximal Policy
     Optimization (PPO) fine-tune. Under a unified action
     space, the strongest heuristic, similarity-weighted
-    Farthest Point Sampling at $alpha = 0.75$, achives a // FIXME typo: "achives" -> "achieves"
+    Farthest Point Sampling at $alpha = 0.75$, achieves a
     $0.768$ mean IoU (mIoU) using 5 points ($N = 5$);
     behavioral cloning of a greedy oracle reaches $0.672$
     mIoU; and two reinforcement-learning (RL) fine-tunes
     warm-started from the cloned policy reach $0.864$ mIoU
     at $N = 5$ and $0.866$ mIoU at $N = 10$, with
-    improvements of $0.193$ and $0.281$ over the behavioral
-    cloning approach. // NOTE: also report gap to strongest heuristic ($0.096$/$0.136$) — more informative baseline
+    improvements of $0.096$ and $0.136$ over the strongest 
+    heuristic and $0.193$ and $0.281$ over the behavioral
+    cloning approach.
     On the canonical FSS-1000 one-shot
     subset, the same policies reach $0.876$ and $0.875$,
     surpassing PerSAM and SegGPT and approaching Matcher,
-    which relies on the same DINOv2 plus SAM backbone.
+    which relies on the same DINOv2 plus SAM backbone. These 
+    results suggest that learned point selectors close most 
+    of the gap between point-prompted SAM and dense-correspondence 
+    one-shot methods.
   ],
   authors: (
     (
@@ -80,13 +73,12 @@
 = Introduction
 
 Single-shot models learn to perform a task from a single labeled example. Single-shot semantic segmentation reframes this as a support–query problem. Given one annotated support image of a class, the
-model must segment every instance of that class in a new query image. The setting is attractive because it avoids the expensive per-class supervision that conventional segmentation networks require, and it aligns with how practitioners often operate in the wild, where a small number of reference annotations must generalize to unseen scenes.   Recent progress in self-supervised representation learning @oquab2023dinov2 and promptable segmentation @kirillov2023sam has made this regime increasingly within reach for the average practitioner. In particular, the combination of a frozen vision transformer for feature extraction and the Segment Anything Model (SAM) for mask decoding has emerged as a dominant template, because it decouples class-agnostic shape priors from semantic correspondence and requires no fine-tuning on the target domain.
+model must segment every instance of that class in a new query image. The setting is attractive because it avoids the expensive per-class supervision that conventional segmentation networks require, and it aligns with how practitioners often operate in the wild, where a small number of reference annotations must generalize to unseen scenes. Recent progress in self-supervised representation learning @oquab2023dinov2 and promptable segmentation @kirillov2023sam has made this regime increasingly within reach for the average practitioner. In particular, the combination of a frozen vision transformer for feature extraction and the Segment Anything Model (SAM) for mask decoding has emerged as a dominant template, because it decouples class-agnostic shape priors from semantic correspondence and requires no fine-tuning on the target domain.
 
 The standard template for single-shot SAM-based segmentation involves three stages: 1) feature extraction via DINOv2, 2) similarity map computation, and 3) point prompt selection for SAM. DINOv2 embeds both support and query images into dense feature grids. The annotated support region is averaged to form a reference class embedding, which is compared to each query pixel via cosine similarity. Finally, $N$ point prompts are extracted from the similarity map and passed to SAM, which produces the final mask.
 
-However, this reduction is the most contested stage of the pipeline. The prior two stages have well-established closed-form definitions, but point selection from a dense similarity map has been approached in fundamentally    
-different ways across the recent literature.                                                                                                                                
-The naive choice of selecting the $N$ pixels with the highest similarity scores tends to concentrate points on a single high-confidence region of the object. SAM then receives redundant prompts that provide little additional 
+However, this reduction is the most contested stage of the pipeline. The prior two stages have well-established closed-form definitions, but point selection from a dense similarity map has been approached in fundamentally different ways across the recent literature.                                                                                                                                
+The naive choice of selecting the $N$ pixels with the highest similarity scores tends to concentrate points on a single high-confidence region of the object. SAM then receives redundant prompts that provide little additional  
 disambiguating information about object extent, boundaries, or the presence of multiple instances, and the marginal value of additional points collapses.
                                               
 In response, much of the recent SAM-prompting literature converges on the intuition that spatial spread, jointly with similarity magnitude, governs mask quality, and clustering-based heuristics including NMS, FPS, and        
@@ -102,7 +94,7 @@ selection rules poorly characterized.
   scope: "parent",
 ) <fig:state_action>
 
-We address this gap with a benchmark of eleven non-trained point selection strategies, a behavioral-cloning (BC) policy, and a reinforcement-learning (RL) fine-tune, all evaluated on FSS-1000 @li2020fss1000 over $N in {1, 2, 3, 5, 7, 10}$. All methods share an identical front-end and back-end, namely a DINOv2 ViT-L/14 encoder and a SAM ViT-H decoder, so that the only source of variation is from the $N$ prompt locations that are drawn from the shared similarity map. To remove a residual source of confound, we additionally quantize every selector's output to a shared $37 times 37$ grid before passing it to SAM, so that heuristic, imitation, and reinforcement-learning policies all operate in the same action space. Across this benchmark, the RL fine-tune outperforms the strongest spread-based heuristic by and breaks the plateau-and-decline pattern that every non-trained selector exhibits.
+We address this gap with a benchmark of eleven non-trained point selection strategies, a behavioral-cloning (BC) policy, and a reinforcement-learning (RL) fine-tune, all evaluated on FSS-1000 @li2020fss1000 over $N in {1, 2, 3, 5, 7, 10}$. All methods share an identical front-end and back-end, namely a DINOv2 ViT-L/14 encoder and a SAM ViT-H decoder, so that the only source of variation is from the $N$ prompt locations that are drawn from the shared similarity map. To remove a residual source of confound, we additionally quantize every selector's output to a shared $37 times 37$ grid before passing it to SAM, so that heuristic, imitation, and reinforcement-learning policies all operate in the same action space. Across this benchmark, the RL fine-tune outperforms the strongest spread-based heuristic by breaking the plateau-and-decline pattern that every non-trained selector exhibits.
 
 = Related Work
 

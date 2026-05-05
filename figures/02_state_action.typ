@@ -33,9 +33,9 @@
       ("DINO sim-map", "query DINO features"),
     ),
     (
-      "Click / mask state",
+      "Point / mask state",
       honeycomb.lighten(mute), txt,
-      ("click-history mask", "current SAM mask"),
+      ("point-history mask", "current SAM mask"),
     ),
     (
       "Step counters",
@@ -202,7 +202,7 @@
   let lg-x = grid-x-l
   rect((lg-x, lg-y - 0.25), (lg-x + 0.35, lg-y), fill: garnet, stroke: black + 0.6pt)
   content((lg-x + 0.45, lg-y - 0.12), anchor: "west",
-    text(size: fs-small)[chosen cell #sym.arrow positive click])
+    text(size: fs-small)[chosen cell #sym.arrow positive point])
   rect((lg-x, lg-y - 0.65), (lg-x + 0.35, lg-y - 0.4), fill: mid50, stroke: black + 0.6pt)
   content((lg-x + 0.45, lg-y - 0.52), anchor: "west",
     text(size: fs-small)[already used (masked)])
